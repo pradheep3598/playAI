@@ -1,0 +1,34 @@
+{
+  "Login with standard user": {
+    "steps": [
+      {
+        "task": "type \"standard_user\" in the username field",
+        "selector": "#user-name"
+      },
+      {
+        "task": "type \"secret_sauce\" in the password field",
+        "selector": "#password"
+      },
+      {
+        "task": "click login button",
+        "selector": "#login-button"
+      }
+    ]
+  },
+  "Login with problem user": {
+    "steps": [
+      {
+        "task": "type \"problem_user\" in the username field",
+        "selector": "#user-name"
+      },
+      {
+        "task": "type \"secret_sauce\" in the password field",
+        "selector": "#password"
+      },
+      {
+        "task": "click login button",
+        "selector": "#login-button"
+      }
+    ]
+  }
+}
