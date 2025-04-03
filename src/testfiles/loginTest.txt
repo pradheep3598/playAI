@@ -1,0 +1,3 @@
+type "standard_user" in the username field
+type "secret_sauce" in the password field
+click login button

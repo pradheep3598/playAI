@@ -1,0 +1,18 @@
+{
+  "Get CSS selector for elements": {
+    "steps": [
+      {
+        "task": "Find the CSS selector for the username input field",
+        "selector": "#user-name"
+      },
+      {
+        "task": "Find the CSS selector for the password input field",
+        "selector": "#password"
+      },
+      {
+        "task": "Find the CSS selector for the login button. It is likely an input element with type='submit' or a button element.",
+        "selector": "input[type=\"submit\"]#login-button"
+      }
+    ]
+  }
+}
