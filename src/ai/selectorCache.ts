@@ -73,6 +73,9 @@ export class SelectorCache {
     task: string,
     options: any
   ): Promise<string> {
+    // Check if this is a dropdown locating task
+    const isDropdownLocator = task.toLowerCase().includes('dropdown');
+    
     const scenario = this.cache.get(testName);
     const step = scenario?.steps.find(s => s.task === task);
 
@@ -81,6 +84,17 @@ export class SelectorCache {
         // Verify the cached selector still works
         const elementCount = await page.locator(step.selector).count();
         if (elementCount > 0) {
+          // For dropdown tasks, verify it's a select or has role='combobox'
+          if (isDropdownLocator) {
+            const isValidDropdown = await page.locator(step.selector).evaluate(el => {
+              return el.tagName.toLowerCase() === 'select' || 
+                     el.getAttribute('role') === 'combobox' ||
+                     el.querySelector('select') !== null;
+            });
+            if (!isValidDropdown) {
+              throw new Error('Cached selector is not a valid dropdown element');
+            }
+          }
           console.log(`Using cached selector for task: ${task}`);
           return step.selector;
         }
@@ -93,10 +107,25 @@ export class SelectorCache {
     console.log(`Requesting new selector from Gemini for task: ${task}`);
     const result = await completeTaskGemini(page, {
       task,
-      options
+      options: {
+        ...options,
+        elementType: isDropdownLocator ? 'dropdown' : undefined
+      }
     });
 
     if (result.query) {
+      // For dropdown tasks, verify the selector finds a valid dropdown
+      if (isDropdownLocator) {
+        const isValidDropdown = await page.locator(result.query).evaluate(el => {
+          return el.tagName.toLowerCase() === 'select' || 
+                 el.getAttribute('role') === 'combobox' ||
+                 el.querySelector('select') !== null;
+        });
+        if (!isValidDropdown) {
+          throw new Error('Generated selector is not a valid dropdown element');
+        }
+      }
+
       // Update cache
       if (!this.cache.has(testName)) {
         this.cache.set(testName, { steps: [] });
