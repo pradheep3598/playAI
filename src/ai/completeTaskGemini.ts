@@ -49,19 +49,97 @@ export const completeTaskGemini = async (
     let taskMessage: TaskMessage;
     
     if (typeof taskOrMessage === 'string' || Array.isArray(taskOrMessage)) {
-        // Handle case where only the task string/array is provided
         taskMessage = {
             task: taskOrMessage,
             options: undefined
         };
     } else {
-        // Handle full TaskMessage object
         taskMessage = taskOrMessage;
     }
     
-    // Get a fresh page snapshot if one wasn't provided
+    // Get a fresh page snapshot if one wasn't provided, including iframe content
     if (!taskMessage.snapshot) {
-        taskMessage.snapshot = await getSnapshot(page);
+        // First get the main document snapshot
+        const mainSnapshot = await getSnapshot(page);
+        
+        // Then get content from all iframes
+        const iframeContent = await page.evaluate(() => {
+            const getIframeContent = (iframe: HTMLIFrameElement, parentSelectors: string[] = []): { selector: string; content: string; fullPath: string }[] => {
+                try {
+                    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+                    if (!doc) return [];
+
+                    // Get a unique selector for this iframe
+                    let selector = '';
+                    if (iframe.id) selector = `iframe#${iframe.id}`;
+                    else if (iframe.name) selector = `iframe[name="${iframe.name}"]`;
+                    else if (iframe.src) selector = `iframe[src="${iframe.src}"]`;
+                    else {
+                        // Get nth-child selector as fallback
+                        const parent = iframe.parentElement;
+                        if (parent) {
+                            const iframes = Array.from(parent.getElementsByTagName('iframe'));
+                            const index = iframes.indexOf(iframe);
+                            selector = `iframe:nth-child(${index + 1})`;
+                        } else {
+                            selector = 'iframe';
+                        }
+                    }
+
+                    // Only include this iframe in the path if it's not already represented
+                    const currentPath = parentSelectors.length === 0 ? [selector] : [...parentSelectors, selector];
+                    const fullPath = currentPath.join(' >> ');
+
+                    // Get nested iframes only if they exist and are accessible
+                    const nestedIframes = Array.from(doc.getElementsByTagName('iframe'));
+                    const nestedContent = nestedIframes.length > 0 ? 
+                        nestedIframes.flatMap(nestedIframe => {
+                            try {
+                                // Check if we can actually access the nested iframe
+                                const nestedDoc = nestedIframe.contentDocument || nestedIframe.contentWindow?.document;
+                                if (!nestedDoc) return [];
+                                return getIframeContent(nestedIframe, currentPath);
+                            } catch (e) {
+                                console.log(`Could not access nested iframe: ${e}`);
+                                return [];
+                            }
+                        }) : [];
+
+                    // Add clear markers for input fields and their attributes
+                    const content = doc.documentElement.outerHTML;
+                    const inputFields = Array.from(doc.querySelectorAll('input')).map(input => ({
+                        name: input.name,
+                        id: input.id,
+                        type: input.type,
+                        value: input.value
+                    }));
+
+                    return [{
+                        selector,
+                        content: content + '\n<!-- Available Input Fields: ' + JSON.stringify(inputFields, null, 2) + ' -->',
+                        fullPath
+                    }, ...nestedContent];
+                } catch (e) {
+                    console.log(`Could not access iframe content: ${e}`);
+                    return [];
+                }
+            };
+
+            // Get content from all root iframes
+            const rootIframes = Array.from(document.getElementsByTagName('iframe'));
+            return rootIframes.flatMap(iframe => getIframeContent(iframe));
+        });
+
+        // Combine main document and iframe content in the snapshot with clear structure markers
+        taskMessage.snapshot = {
+            ...mainSnapshot,
+            dom: mainSnapshot.dom + '\n\n' + iframeContent.map(frame => 
+                `--- Content of ${frame.fullPath} ---\n` +
+                `<!-- Frame Structure: ${frame.fullPath} -->\n` +
+                frame.content +
+                `\n--- End of ${frame.fullPath} ---`
+            ).join('\n\n')
+        };
     }
     
     // Initialize the Google Generative AI with the provided API key
@@ -98,18 +176,24 @@ export const completeTaskGemini = async (
 
     const debug = taskMessage.options?.debug ?? defaultDebug;
 
-    // Create a modified prompt for getting CSS selectors
-    const selectorPrompt = `Based on the following webpage and task, provide a CSS selector that would uniquely identify the element described in the task. Do not perform any actions, just return the selector.
+    // Create a modified prompt that handles iframe content
+    const selectorPrompt = `Analyze the given task and webpage DOM to identify the exact element described in the task.
+
+IMPORTANT GUIDELINES:
+- Look for elements that semantically match what the task is requesting
+- Pay careful attention to the exact element type being requested in the task
+- Compare element attributes (name, id, type, etc.) with the task description
+- Ensure the selected element is the best match for the task's intent
 
 Task: ${typeof taskMessage.task === 'string' ? taskMessage.task : taskMessage.task.join('\n')}
 
-Webpage snapshot:
+DOM Structure:
 
 \`\`\`
 ${taskMessage.snapshot.dom}
 \`\`\`
 
-Please provide only the CSS selector, nothing else.`;
+Return a single line with only the CSS selector. For elements in iframes, use "parent >> child" syntax.`;
     
     // Send the prompt to Gemini
     const result = await model.generateContent(selectorPrompt);
@@ -120,7 +204,6 @@ Please provide only the CSS selector, nothing else.`;
     }
     
     // Clean up the response to get just the CSS selector
-    // Remove any markdown code blocks, quotes, or explanatory text
     let cssSelector = text
         .replace(/```css/g, "")
         .replace(/```/g, "")
@@ -130,10 +213,9 @@ Please provide only the CSS selector, nothing else.`;
     
     // If the response contains multiple lines, try to extract just the selector
     if (cssSelector.includes("\n")) {
-        // Try to find a line that looks like a CSS selector (contains typical selector characters)
         const lines = cssSelector.split("\n").map(line => line.trim());
         const selectorLine = lines.find(line => 
-            line.match(/[#\.\[\]='"~>+]/) && 
+            (line.match(/[#\.\[\]='"~>+]/) || line.includes(">>")) && 
             !line.includes("I recommend") && 
             !line.includes("You can use") &&
             !line.includes("Here is") &&
@@ -146,6 +228,16 @@ Please provide only the CSS selector, nothing else.`;
             // Just use the first non-empty line
             cssSelector = lines.find(line => line.length > 0) || "";
         }
+    }
+
+    // Handle error messages from the AI
+    if (cssSelector.toLowerCase().includes("no") && 
+        cssSelector.toLowerCase().includes("field") && 
+        cssSelector.toLowerCase().includes("visible")) {
+        if (debug) {
+            console.log("> AI could not find the element. Full response:", text);
+        }
+        throw new Error("Element not found in the provided DOM snapshot. Please check if the element exists or if it's in a not-yet-loaded iframe.");
     }
     
     if (debug) {

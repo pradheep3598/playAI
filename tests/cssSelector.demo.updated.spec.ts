@@ -29,7 +29,7 @@ test.describe("CSS Selector Generation with Gemini", () => {
   });
 
   // Get scenarios from feature file
-  const featureFile = 'tests/features/login.feature';
+  const featureFile = 'tests/features/basic.feature';
   const scenarios = FeatureFileReader.readFeatureFile(featureFile);
   
   // Create a test for each scenario - they will run in parallel

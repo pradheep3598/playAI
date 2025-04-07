@@ -1,0 +1,2 @@
+click Drop-Down button
+Select "apple" in Select the apple using visible text dropdown

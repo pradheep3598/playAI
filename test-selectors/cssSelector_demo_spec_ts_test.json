@@ -12,6 +12,42 @@
       {
         "task": "Find the CSS selector for the login button. It is likely an input element with type='submit' or a button element.",
         "selector": "input[type=\"submit\"][data-test=\"login-button\"]"
+      },
+      {
+        "task": "Click Drop-Down button",
+        "selector": "a[href=\"/dropdowns\"]"
+      },
+      {
+        "task": "Select \"Apple\" in the Select the apple using visible text dropdown",
+        "selector": "#fruits > option[value=\"0\"]"
+      },
+      {
+        "task": "Find Select the apple using visible text dropdown",
+        "selector": "#fruits > option[value=\"0\"]"
+      },
+      {
+        "task": "Type \"Admin\" in the username input field",
+        "selector": "There is no dropdown element (<select> or similar) visible in the provided HTML snippet.  Therefore, it's impossible to create a CSS selector to target a dropdown."
+      },
+      {
+        "task": "Type \"admin123\" in the password field",
+        "selector": "input[name=\"password\"]"
+      },
+      {
+        "task": "Click the login button",
+        "selector": ".orangehrm-login-button"
+      },
+      {
+        "task": "Click the Admin button in side panel",
+        "selector": "a[href=\"/web/index.php/admin/viewAdminModule\"]"
+      },
+      {
+        "task": "Click User Role dropdown",
+        "selector": "div.oxd-grid-item.oxd-grid-item--gutters > div > div.oxd-input-group__label-wrapper > label[text()='User Role'] + div > div.oxd-select-wrapper > div.oxd-select-text.oxd-select-text--active"
+      },
+      {
+        "task": "Find the User Role text",
+        "selector": "div.oxd-table-header-cell.oxd-padding-cell.oxd-table-th:nth-child(3)"
       }
     ]
   },

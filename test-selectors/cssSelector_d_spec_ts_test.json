@@ -1,0 +1,222 @@
+{
+  "Get CSS selector for elements": {
+    "steps": [
+      {
+        "task": "Click yes for Select any one radio button",
+        "selector": "input#yes"
+      },
+      {
+        "task": "Click yes for Find the bug radio button",
+        "selector": "input[id=\"nobug\"]"
+      },
+      {
+        "task": "Click Simple Alert button",
+        "selector": "#accept"
+      },
+      {
+        "task": "Click Ok in the alert",
+        "selector": "#accept"
+      },
+      {
+        "task": "Click Confirm Alert button",
+        "selector": "#confirm"
+      },
+      {
+        "task": "Click Cancel in the alert",
+        "selector": "#confirm"
+      },
+      {
+        "task": "Give me 2nd row of Shopping List Table",
+        "selector": "#shopping > tbody > tr:nth-child(2)"
+      },
+      {
+        "task": "Click Present/Absent check box for Yashwanth Let's handle it Table",
+        "selector": "#second"
+      },
+      {
+        "task": "Type \"Pradheep\" in First name field",
+        "selector": "#firstname"
+      },
+      {
+        "task": "Type \"Varatharajan\" in last name field",
+        "selector": "#lasttname"
+      },
+      {
+        "task": "Type \"@gmail.com\" in Email field",
+        "selector": "#email"
+      },
+      {
+        "task": "Select \"India (+91)\" Country Code drop down",
+        "selector": "option[data-countrycode=\"IN\"][value=\"91\"]"
+      },
+      {
+        "task": "Select \"India\" Country drop down",
+        "selector": "select[value=\"India\"]"
+      },
+      {
+        "task": "Select \"India (+91)\" in Country Code drop down",
+        "selector": "#countrycode + div .select select > option[data-countrycode=\"IN\"]"
+      },
+      {
+        "task": "Select \"India\" in Country drop down",
+        "selector": "option[value=\"India\"]"
+      },
+      {
+        "task": "Type \"gmail.com\" in Email field",
+        "selector": "#email"
+      },
+      {
+        "task": "Click \"Male\" on Gender radio button",
+        "selector": "#male"
+      },
+      {
+        "task": "Click Check box for \"I agree to the terms and conditions\"",
+        "selector": "input[type=\"checkbox\"][required]"
+      },
+      {
+        "task": "Click \"Date Of Birth\" Calendar",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Click \"Calendar Icon\" on Date Of Birth Calendar",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Click \"April 8 2025\" on Date Of Birth Calendar",
+        "selector": "input#Date[type=\"date\"]"
+      },
+      {
+        "task": "Click \"Date Of Birth\" Calendar button",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Type \"08/04/2025\" in \"Date Of Birth\" Calendar",
+        "selector": "input#Date[name=\"dob\"]"
+      },
+      {
+        "task": "Type \"08/04/2025\" in \"Date Of Birth\" Calendar field",
+        "selector": "input#Date[name=\"dob\"][type=\"date\"]"
+      },
+      {
+        "task": "Type \"08/04/2025\" in Date Of Birth Calendar field",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Type Pradheep\" in First name field",
+        "selector": "iframe[src=\"frame2.html\"] #firstName"
+      },
+      {
+        "task": "Type \"Pradheep\" in Email field",
+        "selector": "iframe#firstFr >> iframe[src=\"innerframe\"] >> input[name=\"email\"]"
+      },
+      {
+        "task": "Type \"Varatharajan\" in Last name field",
+        "selector": "iframe#firstFr >> input[name=\"lname\"]"
+      }
+    ]
+  },
+  "Execute single step": {
+    "steps": [
+      {
+        "task": "Click yes for Select any one radio button",
+        "selector": "input[type=\"radio\"][id=\"yes\"]"
+      },
+      {
+        "task": "Click yes for Find the bug radio button",
+        "selector": "input[id=\"nobug\"]"
+      },
+      {
+        "task": "Click Simple Alert button",
+        "selector": "#accept"
+      },
+      {
+        "task": "Click Ok in the alert",
+        "selector": "#accept"
+      },
+      {
+        "task": "Click Confirm Alert button",
+        "selector": "#confirm"
+      },
+      {
+        "task": "Click Cancel in the alert",
+        "selector": "#confirm"
+      },
+      {
+        "task": "Click Present/Absent check box for Yashwanth Let's handle it Table",
+        "selector": "#second"
+      },
+      {
+        "task": "Type \"Pradheep\" in First name field",
+        "selector": "#firstname"
+      },
+      {
+        "task": "Type \"Varatharajan\" in last name field",
+        "selector": "#lasttname"
+      },
+      {
+        "task": "Type \"@gmail.com\" in Email field",
+        "selector": "#email"
+      },
+      {
+        "task": "Select \"India (+91)\" Country Code drop down",
+        "selector": "option[data-countrycode=\"IN\"][value=\"91\"]"
+      },
+      {
+        "task": "Select \"India\" Country drop down",
+        "selector": "select[value=\"India\"]"
+      },
+      {
+        "task": "Select \"India (+91)\" in Country Code drop down",
+        "selector": "option[data-countrycode=\"IN\"][value=\"91\"]"
+      },
+      {
+        "task": "Select \"India\" in Country drop down",
+        "selector": "option[value=\"India\"]"
+      },
+      {
+        "task": "Type \"gmail.com\" in Email field",
+        "selector": "input#email"
+      },
+      {
+        "task": "Click \"Male\" on Gender radio button",
+        "selector": "input#male[name=\"gender\"]"
+      },
+      {
+        "task": "Click Check box for \"I agree to the terms and conditions\"",
+        "selector": "input[type=\"checkbox\"][required]"
+      },
+      {
+        "task": "Click \"Date Of Birth\" Calendar",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Click \"Calendar Icon\" on Date Of Birth Calendar",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Click \"April 8 2025\" on Date Of Birth Calendar",
+        "selector": "input#Date[name=\"dob\"]"
+      },
+      {
+        "task": "Click \"Date Of Birth\" Calendar button",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Type \"08/04/2025\" in \"Date Of Birth\" Calendar",
+        "selector": "input#Date[name=\"dob\"]"
+      },
+      {
+        "task": "Type \"08/04/2025\" in \"Date Of Birth\" Calendar field",
+        "selector": "input#Date[name=\"dob\"][type=\"date\"]"
+      },
+      {
+        "task": "Type \"08/04/2025\" in Date Of Birth Calendar field",
+        "selector": "input#Date"
+      },
+      {
+        "task": "Type \"Pradheep\" in Email field",
+        "selector": "There is no email field in the provided HTML."
+      }
+    ]
+  }
+}

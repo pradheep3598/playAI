@@ -1,29 +1,77 @@
 {
+  "Login to sauce demo": {
+    "steps": [
+      {
+        "task": "Type \"standard_user\" in username input field",
+        "selector": "input#user-name"
+      },
+      {
+        "task": "Type \"secret_sauce\" in password input field",
+        "selector": "#password"
+      },
+      {
+        "task": "Click login button",
+        "selector": "input[type=\"submit\"]#login-button"
+      }
+    ]
+  },
+  "Fill iframe form in letcode": {
+    "steps": [
+      {
+        "task": "Type \"Pradheep\" in First name field",
+        "selector": "iframe#firstFr >> input[name=\"fname\"]"
+      },
+      {
+        "task": "Type \"Varatharajan\" in Last name field",
+        "selector": "iframe#firstFr >> input[name=\"lname\"]"
+      },
+      {
+        "task": "Type \"pradheep.varatharajan@gmail.com\" in Email field",
+        "selector": "iframe#firstFr >> iframe[src=\"innerframe\"] >> input[name=\"email\"]"
+      }
+    ]
+  },
+  "Fill form in letcode": {
+    "steps": [
+      {
+        "task": "Type \"Pradheep\" in First name field",
+        "selector": "#firstname"
+      },
+      {
+        "task": "Type \"Varatharajan\" in last name field",
+        "selector": "input#lasttname"
+      },
+      {
+        "task": "Type \"gmail.com\" in Email field",
+        "selector": "input#email[type=\"email\"]"
+      },
+      {
+        "task": "Select \"India (+91)\" in Country Code drop down",
+        "selector": "div.column.is-half > div.field > div.control > div.select > select > option[data-countrycode=\"IN\"]"
+      },
+      {
+        "task": "Select \"India\" in Country drop down",
+        "selector": "#country > div > select > option[value=\"India\"]"
+      },
+      {
+        "task": "Click \"Male\" on Gender radio button",
+        "selector": "input[type=\"radio\"][id=\"male\"]"
+      },
+      {
+        "task": "Click Check box for \"I agree to the terms and conditions\"",
+        "selector": ".checkbox > input[type=\"checkbox\"]"
+      }
+    ]
+  },
   "Login with standard user": {
     "steps": [
       {
         "task": "type \"standard_user\" in the username field",
-        "selector": "#user-name"
+        "selector": "input[name=\"user-name\"]"
       },
       {
         "task": "type \"secret_sauce\" in the password field",
-        "selector": "#password"
-      },
-      {
-        "task": "click login button",
-        "selector": "#login-button"
-      }
-    ]
-  },
-  "Login with problem user": {
-    "steps": [
-      {
-        "task": "type \"problem_user\" in the username field",
-        "selector": "#user-name"
-      },
-      {
-        "task": "type \"secret_sauce\" in the password field",
-        "selector": "#password"
+        "selector": "input[type=\"password\"][name=\"password\"]"
       },
       {
         "task": "click login button",
