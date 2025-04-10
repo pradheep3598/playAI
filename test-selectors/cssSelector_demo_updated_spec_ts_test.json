@@ -78,5 +78,13 @@
         "selector": "#login-button"
       }
     ]
+  },
+  "Select dropDown value": {
+    "steps": [
+      {
+        "task": "Select \"25\" in entries per page drop down",
+        "selector": "#dt-length-0 > option:nth-child(3)"
+      }
+    ]
   }
 }

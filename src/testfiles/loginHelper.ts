@@ -777,9 +777,9 @@ export class LoginHelper {
         else if (step.toLowerCase().includes('click')) {
           await element.click();
           
-          if (step.toLowerCase().includes('login')) {
-            await page.locator('.inventory_list').waitFor({ state: 'visible', timeout: 5000 });
-          }
+          // if (step.toLowerCase().includes('login')) {
+          //   await page.locator('.inventory_list').waitFor({ state: 'visible', timeout: 5000 });
+          // }
         }
         else if (step.toLowerCase().match(/\b(select|choose)\b/i) && step.toLowerCase().includes('dropdown')) {
           if (!quotedText) {

@@ -212,7 +212,7 @@ test("Get CSS selector for for letcodePage", async ({ page }) => {
   });
 
 
-test.only("Get CSS selector for iframe", async ({ page }) => {
+test("Get CSS selector for iframe", async ({ page }) => {
     // Skip the test if no Gemini API key is provided
     if (!geminiApiKey) {
       test.skip();
@@ -255,6 +255,92 @@ test.only("Get CSS selector for iframe", async ({ page }) => {
 
     console.log("Email field selector:", emailSelector);
     await loginHelper.executeSingleStep(page, emailTask, emailSelector);
+
+  });
+
+
+  test("Get Table value in OrangeHRM", async ({ page }) => {
+    // Skip the test if no Gemini API key is provided
+    if (!geminiApiKey) {
+      test.skip();
+      return;
+    }
+
+    // Navigate to the demo site
+    await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+
+    const firstNameTask = `Type "Admin" in Username field`
+    const firstNameSelector = await selectorCache.getOrFindSelector(
+      page,
+      "Get CSS selector for elements",
+      firstNameTask,
+      options
+    );
+
+    console.log("First name field selector:", firstNameSelector);
+
+    await loginHelper.executeSingleStep(page, firstNameTask, firstNameSelector);
+
+    const lastNameTask = `Type "admin123" in Password field`
+    const lastNameSelector = await selectorCache.getOrFindSelector(
+      page,
+      "Get CSS selector for elements",
+      lastNameTask,
+      options
+    );
+
+    console.log("Last name field selector:", lastNameSelector);
+    await loginHelper.executeSingleStep(page, lastNameTask, lastNameSelector);
+
+
+    const emailTask = `Click on Login button`
+    const emailSelector = await selectorCache.getOrFindSelector(
+      page,
+      "Get CSS selector for elements",
+      emailTask,
+      options
+    );
+
+    console.log("Email field selector:", emailSelector);
+    await loginHelper.executeSingleStep(page, emailTask, emailSelector);
+
+
+    const adminTask = `Click Admin button left side menu`
+    const adminSelector = await selectorCache.getOrFindSelector(
+      page,
+      "Get CSS selector for elements",
+      adminTask,
+      options
+    );
+
+    console.log("Admin field selector:", adminSelector);
+    await loginHelper.executeSingleStep(page, adminTask, adminSelector);
+
+
+
+    const selectRoleTask = `Find User Role drop down and click on it`
+    const selectRoleSelector = await selectorCache.getOrFindSelector(
+      page,
+      "Get CSS selector for elements",
+      selectRoleTask,
+      options
+    );
+
+    console.log("Select role field selector:", selectRoleSelector);
+    await page.locator(selectRoleSelector).first().click()
+
+
+    const adminRoleTask = `Click "Admin" in User Role drop down`
+    const adminRoleSelector = await selectorCache.getOrFindSelector(
+      page,
+      "Get CSS selector for elements",
+      adminRoleTask,
+      options
+    );
+    
+    console.log("Admin role field selector:", adminRoleSelector);
+    await page.locator(adminRoleSelector).click()
+    // await loginHelper.executeSingleStep(page, selectRoleTask, selectRoleSelector);
 
   });
 

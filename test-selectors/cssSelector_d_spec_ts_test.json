@@ -112,6 +112,50 @@
       {
         "task": "Type \"Varatharajan\" in Last name field",
         "selector": "iframe#firstFr >> input[name=\"lname\"]"
+      },
+      {
+        "task": "Select \"35\" in entries per page drop down",
+        "selector": "#dt-length-0 > option:nth-child(3)"
+      },
+      {
+        "task": "Select \"25\" in entries per page drop down",
+        "selector": "#dt-length-0 > option[value=\"25\"]"
+      },
+      {
+        "task": "Get WEBSITE column value for University of Wales, Aberystwyth for this University",
+        "selector": "td:nth-child(4):contains(\"https://www.aber.ac.uk/\")"
+      },
+      {
+        "task": "Get WEBSITE column value for \"University of Wales, Aberystwyth\"",
+        "selector": "table#advancedtable > tbody > tr:nth-child(2) > td:nth-child(4)"
+      },
+      {
+        "task": "Type \"Admin\" in Username field",
+        "selector": "input[name=\"username\"]"
+      },
+      {
+        "task": "Type \"admin123\" in Password field",
+        "selector": "input[name=\"password\"]"
+      },
+      {
+        "task": "Click on Login button",
+        "selector": "button.oxd-button.oxd-button--medium.oxd-button--main.orangehrm-login-button"
+      },
+      {
+        "task": "Click Admin button left side menu",
+        "selector": "a[href='/web/index.php/admin/viewAdminModule']"
+      },
+      {
+        "task": "Select \"Admin\" in User Role drop down",
+        "selector": "div[data-v-957b4417]>div[data-v-13cf171c] div[tabindex=\"0\"]"
+      },
+      {
+        "task": "Find User Role drop down and click on it",
+        "selector": "div[data-v-957b4417]>div[data-v-13cf171c]>div[data-v-67d2aedf]"
+      },
+      {
+        "task": "Click \"Admin\" in User Role drop down",
+        "selector": "div[data-v-d130bb63][data-v-13cf171c][role=\"option\"]:nth-child(2)"
       }
     ]
   },
